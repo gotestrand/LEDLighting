@@ -1,0 +1,9 @@
+<div id="title">BJÖRNS LED EXTREME</div>
+<div id="controls" *ngIf="lighting">
+    <app-animation-controls [(animators)]="lighting.animators"></app-animation-controls>
+
+    <app-ledcontrols [(fixtures)]="lighting.fixtures"></app-ledcontrols>
+    <button (click)="toRing()">Ringar</button>
+    <button (click)="toLine()">Rader</button>
+</div>
+<canvas #canvas></canvas>

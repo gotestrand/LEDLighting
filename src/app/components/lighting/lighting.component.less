@@ -1,0 +1,36 @@
+@import "../../shared/styles/mixins.less";
+
+:host {
+    #title {
+        position: absolute;
+        top:25px;
+        left: 25px;
+        color:#fff;
+        font-size: 2rem;
+        // .disable-select();
+    }
+    #controls {
+        color: #fff;
+        position: absolute;
+        right: 0;
+        top:0;
+        width: 280px;
+        height: 100%;
+    }
+
+    button {
+        border: 1px solid #eee;
+        border-radius: 0;
+        background: #000;
+        color: #fff;
+        font-size: 14px;
+        outline:0;        
+        cursor: pointer;
+        padding: 4px 8px;
+        margin-top: 15px;
+        margin-right: 5px;
+        &:active {
+            background: #333;
+        }
+    }
+}

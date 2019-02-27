@@ -1,0 +1,68 @@
+<div class="animators">
+    <div class="animator" *ngFor="let animator of animators">
+
+        <div *ngIf="checkInstance(animator, 'LEDIntencityWaveAnimator')">
+            <h5>Wave</h5>
+
+            <div class="range">
+                <div class="label">Speed</div>
+                <app-range-control [(value)]="animator.speed" [max]="0.05" [min]="0.001" [step]="0.001"></app-range-control>
+                <!-- <div class="value">{{animator.speed | number}}</div> -->
+            </div>
+            <div class="range">
+                <div class="label">Cycles</div>
+                <app-range-control [(value)]="animator.turns" [max]="20" [min]="1" [step]="1"></app-range-control>
+                <!-- <div class="value">{{animator.speed | number}}</div> -->
+            </div>
+            <div class="range">
+                <div class="label">Cutter</div>
+                <app-range-control [(value)]="animator.step" [max]="1" [min]="0" [step]="0.05"></app-range-control>
+                <!-- <div class="value">{{animator.speed | number}}</div> -->
+            </div>
+
+            <div class="range">
+                <div class="label">Fixture offset</div>
+                <app-range-control [(value)]="animator.fixtureOffset" [max]="360" [min]="0" [step]="1"></app-range-control>
+                <!-- <div class="value">{{animator.speed | number}}</div> -->
+            </div>
+
+        </div>
+
+        <div *ngIf="checkInstance(animator, 'LEDStrobAnimator')">
+            <h5>Strob</h5>
+
+            <div class="range">
+                <div class="label">Delay</div>
+                <app-range-control [(value)]="animator.delay" [max]="3000" [min]="0" [step]="100"></app-range-control>
+                <!-- <div class="value">{{animator.speed | number}}</div> -->
+            </div>
+
+            <div class="range">
+                <div class="label">Flash</div>
+                <app-range-control [(value)]="animator.flash" [max]="1000" [min]="0" [step]="25"></app-range-control>
+                <!-- <div class="value">{{animator.speed | number}}</div> -->
+            </div>
+
+            <div class="range">
+                <div class="label">Attack</div>
+                <app-range-control [(value)]="animator.attack" [max]="1000" [min]="0" [step]="25"></app-range-control>
+                <!-- <div class="value">{{animator.speed | number}}</div> -->
+            </div>
+
+            <div class="range">
+                <div class="label">Hold</div>
+                <app-range-control [(value)]="animator.hold" [max]="3000" [min]="0" [step]="25"></app-range-control>
+                <!-- <div class="value">{{animator.speed | number}}</div> -->
+            </div>
+
+            <div class="range">
+                <div class="label">Fixture offset</div>
+                <app-range-control [(value)]="animator.fixtureOffset" [max]="1000" [min]="0" [step]="25"></app-range-control>
+                <!-- <div class="value">{{animator.speed | number}}</div> -->
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
