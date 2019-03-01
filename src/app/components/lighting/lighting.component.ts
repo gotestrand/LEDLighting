@@ -67,6 +67,10 @@ export class LightingComponent implements OnInit {
         this.lighting.toLine();
     }
 
+    public toBar() {
+        this.lighting.toBar();
+    }
+
     public draw() {
         window.requestAnimationFrame((time) => {
 
@@ -81,30 +85,27 @@ export class LightingComponent implements OnInit {
     }
 
     private _clickedFixture;
+    private _clickedFixtureOffsetX;
+    private _clickedFixtureOffsetY;
+
     @HostListener('mousemove', ['$event']) onMouseMove(event) {
         if (this._clickedFixture !== undefined) {
-            this._clickedFixture.position.x = event.offsetX;
-            this._clickedFixture.position.y = event.offsetY;
+            this._clickedFixture.position.x = event.offsetX + this._clickedFixtureOffsetX;
+            this._clickedFixture.position.y = event.offsetY + this._clickedFixtureOffsetY;
         }
-        // if (this._mouseDown) {
-        //     if(event.offsetX == 0) {
-        //       this.value = this.min;
-        //     } else {
-        //       this.value = event.offsetX / this._element.nativeElement.clientWidth * (this.max - this.min);                   
-        //       this.value = Math.round(this.value / this.step) * this.step + this.min;
-        //       this.valueChange.emit(this.value);          
-        //     }
-  
-        // }
+
+        let match = false;
+        _.each(this.lighting.fixtures, (fixture) => {
+            let distance = Math.sqrt(Math.pow(Math.abs(fixture.position.x - event.offsetX),2) + Math.pow(Math.abs(fixture.position.y - event.offsetY),2));
+            if (distance < fixture.radius) {
+                match = true;
+            }
+        });
+        event.toElement.style.cursor = match ? 'move' : 'auto';                
     }
   
     @HostListener('mouseout', ['$event']) onMouseOut(event) {
-        // var e = event.toElement || event.relatedTarget;
-        //   if (e.parentNode == this._element.nativeElement || e == this._element.nativeElement) {
-        //      return;
-        //   }
-        
-        // this._mouseDown = false;
+
     }
   
     @HostListener('mouseup') onMouseUp() {
@@ -116,10 +117,12 @@ export class LightingComponent implements OnInit {
         
         let closestDistance = undefined;
         _.each(this.lighting.fixtures, (fixture) => {
-            let distance = Math.sqrt(Math.pow(Math.abs(fixture.position.x - event.offsetX),1) + Math.pow(Math.abs(fixture.position.y - event.offsetY),2));
+            let distance = Math.sqrt(Math.pow(Math.abs(fixture.position.x - event.offsetX),2) + Math.pow(Math.abs(fixture.position.y - event.offsetY),2));
             if ((closestDistance == undefined || distance < closestDistance) && distance < fixture.radius)  {
                 closestDistance = distance;
                 this._clickedFixture = fixture;
+                this._clickedFixtureOffsetX = fixture.position.x - event.offsetX;
+                this._clickedFixtureOffsetY = fixture.position.y - event.offsetY;
             }
         });        
         this._mouseDown = true;
