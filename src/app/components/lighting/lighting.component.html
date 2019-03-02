@@ -2,7 +2,7 @@
 <div id="controls" *ngIf="lighting">
     <app-animation-controls [(animators)]="lighting.animators"></app-animation-controls>
 
-    <app-ledcontrols [(fixtures)]="lighting.fixtures"></app-ledcontrols>
+    <app-ledcontrols [(fixture)]="selectedFixture"></app-ledcontrols>
     <button (click)="toRing()">Ringar</button>
     <button (click)="toLine()">Rader</button>
 </div>

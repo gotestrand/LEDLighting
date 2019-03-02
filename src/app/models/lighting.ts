@@ -54,14 +54,19 @@ export class Lighting {
             let width = window.innerWidth;
             let height = window.innerHeight;
             let padding = 0.3;
+            let position = new Position(Math.random() * (width*(1-2*padding)) + padding*width,Math.random() * (height*(1-2*padding)) + padding*height,0);
+            let tweenTo = {
+                position: position,
+                count: Math.random() * 120 + 40
+            }
 
-            let tween = new TWEEN.Tween(fixture.position)
-            .to(new Position(Math.random() * (width*(1-2*padding)) + padding*width,Math.random() * (height*(1-2*padding)) + padding*height,0),1000)
-            .easing(TWEEN.Easing.Quadratic.In)
-            .onUpdate((values) => {
-              
-            })
-            .start();
+            let tween = new TWEEN.Tween(fixture.position)            
+                .to(position,1000)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .onUpdate(() => {
+                
+                })
+                .start();
         });
     }
 
@@ -73,11 +78,11 @@ export class Lighting {
             setTimeout(() => {
                 _.each(fixture.leds, (led, i) => {                
                     
-                        let x = Math.cos(i * rad + Math.PI/2) * fixture.radius;
-                        let y = Math.sin(i * rad + Math.PI/2) * fixture.radius;
-                        let position = new Position(x,y,0);    
-                        
-                        let tween = new TWEEN.Tween(led.position)
+                    let x = Math.cos(i * rad + Math.PI/2) * fixture.radius;
+                    let y = Math.sin(i * rad + Math.PI/2) * fixture.radius;
+                    let position = new Position(x,y,0);    
+                    
+                    let tween = new TWEEN.Tween(led.position)
                         .to(position,1000)
                         .easing(TWEEN.Easing.Quadratic.Out)
                         .onUpdate(() => {

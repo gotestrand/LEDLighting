@@ -1,4 +1,9 @@
+import { conditionallyCreateMapObjectLiteral } from '@angular/compiler/src/render3/view/util';
+
 export class Color {
+
+    private _colorChangeCallback;
+
     private _r: number;
     public get r() {
         return this._r;
@@ -6,6 +11,7 @@ export class Color {
     public set r(value) {
         this._r = value;
         this.rA = value;
+        this.colorUpdate();
     }
 
     private _g: number;
@@ -14,7 +20,8 @@ export class Color {
     }
     public set g(value) {
         this._g = value;
-        this.gA = value;
+        this.gA = value;    
+        this.colorUpdate();
     }
 
     private _b: number;
@@ -24,6 +31,7 @@ export class Color {
     public set b(value) {
         this._b = value;
         this.bA = value;
+        this.colorUpdate();
     }
 
     private _a: number;
@@ -33,6 +41,7 @@ export class Color {
     public set a(value) {
         this._a = value;
         this.aA = value;
+        this.colorUpdate();
     }
 
     public rA: number;
@@ -75,5 +84,16 @@ export class Color {
             g: parseInt(result[2], 16),
             b: parseInt(result[3], 16)
         } : null;
+    }
+
+    private colorUpdate() {
+        if (this._callback) {
+            this._callback(new Color(this._r, this._g, this._b, this._a));
+        }        
+    }
+
+    private _callback;
+    public colorChange(callback) {
+        this._callback = callback;    
     }
 }

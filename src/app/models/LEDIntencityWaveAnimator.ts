@@ -36,7 +36,7 @@ export class LEDIntencityWaveAnimator implements ILEDAnimation{
             //     } 
             // }
             _.each(fixture.leds, (led,index) => {
-
+                
                 fixture.indexOffset += this.speed * 1;
                 index = index + fixture.indexOffset;
     

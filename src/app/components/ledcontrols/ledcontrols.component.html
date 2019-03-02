@@ -1,9 +1,23 @@
-<!-- <div>
-    <h2>Fixtures</h2>
-    <div *ngFor="let fixture of fixtures">
-        <label>
-        <span class="range-title">Red</span>
-        <input type="range" #r (input)="fixture.changeR(r.value)" max="255" min="0" step="1" /> 
-    </label>
+<div class="fixture-controls">
+    <div *ngIf="fixture">
+        <h5>LED</h5>
+
+        <div class="range">
+            <div class="label">Ledcounts</div>
+            <app-range-control [(value)]="fixture.count" [max]="200" [min]="10" [step]="10"></app-range-control>
+            <!-- <div class="value">{{animator.speed | number}}</div> -->
+        </div>
+
+        <div class="range">
+            <div class="label">Color</div>
+            <div class="value">
+                <color-slider [color]="fixture.color.HEX" (onChangeComplete)="colorChangeComplete($event)"></color-slider>
+                <!-- <color-compact [color]="fixture.color.HEX" (onChangeComplete)="colorChangeComplete($event)"></color-compact> -->
+                <!-- <color-circle  [color]="fixture.color.HEX" (onChangeComplete)="colorChangeComplete($event)"></color-circle> -->
+            </div>
+        </div>
+
+
+
     </div>
-</div> -->
+</div>

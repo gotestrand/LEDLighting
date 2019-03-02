@@ -84,24 +84,37 @@ export class LightingComponent implements OnInit {
         });
     }
 
+    public get selectedFixture() : LEDFixture {
+        return this._clickedFixture;
+    }
+
     private _clickedFixture;
     private _clickedFixtureOffsetX;
     private _clickedFixtureOffsetY;
+    private _hoveredFixture: LEDFixture;
+
+    @HostListener('mousewheel', ['$event']) onScroll(event) {
+        if (this._hoveredFixture !== undefined) {
+            this._hoveredFixture.count += Math.floor(event.deltaY/100);
+            this._hoveredFixture.toRing();
+        }
+    }
 
     @HostListener('mousemove', ['$event']) onMouseMove(event) {
-        if (this._clickedFixture !== undefined) {
+        if (this._clickedFixture !== undefined && this._mouseDown) {
             this._clickedFixture.position.x = event.offsetX + this._clickedFixtureOffsetX;
             this._clickedFixture.position.y = event.offsetY + this._clickedFixtureOffsetY;
         }
 
-        let match = false;
+        this._hoveredFixture = undefined;
+        let closestDistance = undefined;
         _.each(this.lighting.fixtures, (fixture) => {
             let distance = Math.sqrt(Math.pow(Math.abs(fixture.position.x - event.offsetX),2) + Math.pow(Math.abs(fixture.position.y - event.offsetY),2));
-            if (distance < fixture.radius) {
-                match = true;
+            if ((closestDistance == undefined || distance < closestDistance) && distance < fixture.radius)  {
+                this._hoveredFixture = fixture;                
             }
         });
-        event.toElement.style.cursor = match ? 'move' : 'auto';                
+        event.toElement.style.cursor = this._hoveredFixture !== undefined ? 'move' : 'auto';                         
     }
   
     @HostListener('mouseout', ['$event']) onMouseOut(event) {
@@ -110,13 +123,14 @@ export class LightingComponent implements OnInit {
   
     @HostListener('mouseup') onMouseUp() {
         this._mouseDown = false;
-        this._clickedFixture = undefined;
+        
     }
   
     @HostListener('mousedown', ['$event']) onMouseDown(event) {
-        
+        this._clickedFixture = undefined;
         let closestDistance = undefined;
-        _.each(this.lighting.fixtures, (fixture) => {
+        _.each(this.lighting.fixtures, (fixture, index) => {
+            
             let distance = Math.sqrt(Math.pow(Math.abs(fixture.position.x - event.offsetX),2) + Math.pow(Math.abs(fixture.position.y - event.offsetY),2));
             if ((closestDistance == undefined || distance < closestDistance) && distance < fixture.radius)  {
                 closestDistance = distance;
